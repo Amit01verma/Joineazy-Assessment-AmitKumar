@@ -389,7 +389,7 @@ View Analytics
 https://github.com/Amit01verma/Joineazy-Task1-AmitKumar
 
 **Demo Video:**  
-_Add demo video link before submission._
+https://drive.google.com/file/d/1IM9XGN_RVM9Iu6D-0BraTjnVTFI10CXc/view?usp=sharing
 
 
 ## Author
