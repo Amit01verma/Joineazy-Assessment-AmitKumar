@@ -1,0 +1,23 @@
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+import authRoutes from "./routes/auth.js";
+import groupRoutes from "./routes/groups.js";
+import assignmentRoutes from "./routes/assignments.js";
+import submissionRoutes from "./routes/submissions.js";
+import adminRoutes from "./routes/admin.js";
+dotenv.config();
+const app = express();
+app.use(cors({ origin: process.env.CLIENT_URL || "http://localhost:5173" }));
+app.use(express.json());
+app.get("/api/health", (req, res) => res.json({ status: "ok" }));
+app.use("/api/auth", authRoutes);
+app.use("/api/groups", groupRoutes);
+app.use("/api/assignments", assignmentRoutes);
+app.use("/api/submissions", submissionRoutes);
+app.use("/api/admin", adminRoutes);
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(500).json({ message: "Internal server error" });
+});
+export default app;

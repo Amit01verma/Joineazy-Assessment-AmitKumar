@@ -1,0 +1,38 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: joineazy-db
+    environment:
+      POSTGRES_DB: joineazy
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d joineazy"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+  backend:
+    build: ./backend
+    environment:
+      PORT: 5000
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/joineazy
+      JWT_SECRET: joineazy_dev_secret_change_me
+      CLIENT_URL: http://localhost:5173
+    ports:
+      - "5000:5000"
+    depends_on:
+      db:
+        condition: service_healthy
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+volumes:
+  postgres_data:
