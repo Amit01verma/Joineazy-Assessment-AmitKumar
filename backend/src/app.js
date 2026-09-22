@@ -6,6 +6,7 @@ import groupRoutes from "./routes/groups.js";
 import assignmentRoutes from "./routes/assignments.js";
 import submissionRoutes from "./routes/submissions.js";
 import adminRoutes from "./routes/admin.js";
+import courseRoutes from "./routes/courses.js";
 dotenv.config();
 const app = express();
 app.use(cors({ origin: process.env.CLIENT_URL || "http://localhost:5173" }));
@@ -16,6 +17,7 @@ app.use("/api/groups", groupRoutes);
 app.use("/api/assignments", assignmentRoutes);
 app.use("/api/submissions", submissionRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/courses", courseRoutes);
 app.use((err, req, res, next) => {
   console.error(err);
   res.status(500).json({ message: "Internal server error" });
